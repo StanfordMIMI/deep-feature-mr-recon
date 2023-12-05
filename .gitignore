@@ -1,0 +1,13 @@
+# Ignore project files
+**/.idea
+**/.DS_Store
+**/.vscode
+
+# Ignore cache
+**/__pycache__
+**/*.pyc
+
+# temp files
+._*
+# ignore checkpoint files
+**/.ipynb_checkpoints/
