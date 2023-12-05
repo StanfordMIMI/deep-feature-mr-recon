@@ -4,6 +4,8 @@
 - <b>Authors: </b>[Philip M. Adamson](https://www.linkedin.com/in/philipadamson/), Arjun D Desai, Jeffrey Dominic, Christian Bluethgen, Jeff P. Wood, Ali B Syed, Robert D. Boutin, Kathryn J. Stevens, Shreyas Vasanawala, John M. Pauly, Akshay S Chaudhari, Beliz Gunel
 - <b>Contact: </b>{padamson} [at] stanford [dot] edu<br>
 
+<img src='data/DFD_Methods.png'/>
+
 ## Datasets
 All reader study MR reconstructions and scores can be found [here](https://drive.google.com/drive/folders/1REr4R_geovFPpz1aYYX-P2GDBNTxosgc?usp=share_link).
 
