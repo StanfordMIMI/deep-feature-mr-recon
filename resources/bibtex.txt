@@ -1,0 +1,6 @@
+@inproceedings{adamson2023using,
+  title={Using Deep Feature Distances for Evaluating MR Image Reconstruction Quality},
+  author={Adamson, Philip M and Desai, Arjun D and Dominic, Jeffrey and Bluethgen, Christian and Wood, Jeff P and Syed, Ali B and Boutin, Robert D and Stevens, Kathryn J and Vasanawala, Shreyas and Pauly, John M and others},
+  booktitle={NeurIPS 2023 Workshop on Deep Learning and Inverse Problems},
+  year={2023}
+}
