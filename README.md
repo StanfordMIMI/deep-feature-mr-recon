@@ -2,7 +2,7 @@
 
 - <b> Title: </b>[Using Deep Feature Distances for Evaluating MR Image Reconstruction Quality](https://openreview.net/forum?id=AUiZyqYiGb)<br>
 - <b>Authors: </b>[Philip M. Adamson](https://www.linkedin.com/in/philipadamson/), Arjun D Desai, Jeffrey Dominic, Christian Bluethgen, Jeff P. Wood, Ali B Syed, Robert D. Boutin, Kathryn J. Stevens, Shreyas Vasanawala, John M. Pauly, Akshay S Chaudhari, Beliz Gunel
-- <b>Project Website: </b> https://philadamson93.github.io/DFD-MR-Recon/
+- <b>Project Website: </b> https://stanfordmimi.github.io/deep-feature-mr-recon/
 - <b>Contact: </b>{padamson} [at] stanford [dot] edu<br>
 
 <img src='data/DFD_Methods.png'/>
