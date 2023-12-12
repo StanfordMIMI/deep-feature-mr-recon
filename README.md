@@ -17,7 +17,7 @@ Create a conda environment for this project
 
 ```bash
 conda conda create -n dfd_env python=3.9
-conda activate meddlr_env
+conda activate dfd_env
 ```
 
 Install torch
@@ -35,14 +35,14 @@ pip install -r requirements.txt
 To compute metrics on the MR reconstruction reader study dataset, run the following command:
 
 ```bash
-cd DFD-MR-RECON # Path to your cloned repo
-python dfd_mr_recon/reader_study_metrics.py --img_dir [path_to_image_folder] --results_dir [path_to_save_results]
+cd deep-feature-mr-recon # Path to your cloned repo
+python deep-feature-mr-recon/reader_study_metrics.py --img_dir [path_to_image_folder] --results_dir [path_to_save_results]
 ```
 
 The Jupyter Notebook ReaderStudy_vs_Metrics.ipynb can then be used to analyze correlations between the computed metrics and radiologist reader study scores.
 
 ### Advanced Usage
-DFD-MR-Recon is built on top of [meddlr](https://github.com/ad12/meddlr), a config-driven an ML framework built to simplify medical image reconstruction and analysis problems.
+deep-feature-mr-recon is built on top of [meddlr](https://github.com/ad12/meddlr), a config-driven an ML framework built to simplify medical image reconstruction and analysis problems.
 Deep Feature Metrics such as LPIPS and SSFD have been incorporated into meddlr to use as both an evaluation and optimization metric for any MR reconstruction task. 
 See the meddlr documentation for more details.
 
