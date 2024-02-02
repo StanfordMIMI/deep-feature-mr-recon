@@ -3,7 +3,7 @@ from typing import Sequence
 import torch
 from torch import nn
 
-from meddlr.metrics.functional.image import mse
+from meddlr.metrics.functional.image import mse, mae
 from meddlr.metrics.metric import Metric
 from meddlr.ops import complex as cplx
 from meddlr.utils import env
@@ -37,6 +37,7 @@ class SSFD(Metric):
         layer_names: Sequence[str] = ("block4_relu2",),
         ssfd_huggingface_url = ("https://huggingface.co/philadamson93/SSFD/resolve"
                                 "/main/default/model.ckpt"),
+        distance_func = 'mse',
         channel_names: Sequence[str] = None,
         reduction="none",
         compute_on_step: bool = False,
@@ -58,6 +59,9 @@ class SSFD(Metric):
                 default URL contains the weights of the model resulting in the SSFD with the 
                 strongest correaltion to radiologist review. See [2] for more details, and visit
                 https://huggingface.co/philadamson93/SSFD for more model options.
+            distance_func (str): The distance function to use for computing the DFD. One of:
+                * ``'mse'``: mean square error.
+                * ``'mae'``: mean absolute error.
 
         """
 
@@ -75,14 +79,32 @@ class SSFD(Metric):
         if mode not in valid_modes:
             raise ValueError(f"Invalid `mode` ('{mode}'). Expected one of {valid_modes}.")
 
+
         self.mode = mode
         self.layer_names = layer_names
 
+        if distance_func == 'mse':
+            self.distance_func = mse
+        elif distance_func == 'mae':
+            self.distance_func = mae
+        # elif distance_func == 'cosine':
+        #     self.distance_func = cosine
+        else:
+            raise ValueError(f"Invalid `distance_func` ('{distance_func}')."
+             "Expected one of mse, mae, or cosine.")
+
+
+
         path_manager = env.get_path_manager()
         file_path = path_manager.get_local_path(ssfd_huggingface_url, force=False)
-
+        
         self.net = SSFD_Encoder(in_channels=1, out_channels=320)
-        self.net.load_state_dict(torch.load(file_path)['model_state_dict'])
+
+        # Check if CUDA is available and set map_location accordingly
+        map_location = 'cpu' if not torch.cuda.is_available() else None
+
+        self.net.load_state_dict(torch.load(file_path, 
+                                            map_location=map_location)['model_state_dict'])
         self.net.eval()
 
     def func(self, preds, targets) -> torch.Tensor:
@@ -109,10 +131,9 @@ class SSFD(Metric):
 
         target_features = self.net(targets)
         pred_features = self.net(preds)
-
         loss = 0
         for layer in self.layer_names:
-            loss += torch.mean(mse(target_features[layer], pred_features[layer]), dim=1)
+            loss += torch.mean(self.distance_func(target_features[layer], pred_features[layer]), dim=1)
         loss = loss.view(loss_shape)
 
         return loss
