@@ -34,7 +34,7 @@ class SSFD(Metric):
     def __init__(
         self,
         mode: str = "grayscale",
-        layer_names: Sequence[str] = ("block4_relu2",),
+        layer_names: Sequence[str] = ("block4_relu1",),
         ssfd_huggingface_url = ("https://huggingface.co/philadamson93/SSFD/resolve"
                                 "/main/default/model.ckpt"),
         distance_func = 'mse',
@@ -53,7 +53,7 @@ class SSFD(Metric):
                              Exception will be thrown if channel dimension != 3 or dtype is complex
             layer_names (Sequence[str]):
                 A list of strings specifying the layers to extract features from. Any of:
-                ['block1_relu2', 'block2_relu2', 'block3_relu2', 'block4_relu2', 'block5_relu2']
+                ['block1_relu1', 'block2_relu1', 'block3_relu1', 'block4_relu1', 'block5_relu1']
                 SSFD from each layer will be summed if multiple layers are specified.
             ssfd_huggingface_url (str): Huggingface URL containing the SSFD model weights. The 
                 default URL contains the weights of the model resulting in the SSFD with the 
@@ -207,11 +207,11 @@ class SSFD_Encoder(nn.Module):
         """
 
         int_layers = {}
-        xdown1, int_layers["block1_relu2"] = self.firstblock(xin)
-        xdown2, int_layers["block2_relu2"] = self.encoder1(xdown1)
-        xdown3, int_layers["block3_relu2"] = self.encoder2(xdown2)
-        xdown4, int_layers["block4_relu2"] = self.encoder3(xdown3)
-        _, int_layers["block5_relu2"] = self.encoder4(xdown4)
+        xdown1, int_layers["block1_relu1"] = self.firstblock(xin)
+        xdown2, int_layers["block2_relu1"] = self.encoder1(xdown1)
+        xdown3, int_layers["block3_relu1"] = self.encoder2(xdown2)
+        xdown4, int_layers["block4_relu1"] = self.encoder3(xdown3)
+        _, int_layers["block5_relu1"] = self.encoder4(xdown4)
 
         return int_layers
 
@@ -234,7 +234,7 @@ class DoubleConv(nn.Module):
         self.out_ch = out_ch
 
         self.conv1 = nn.Conv2d(in_channels=in_ch, out_channels=out_ch, kernel_size=3, padding=1)
-        self.conv2 = nn.Conv2d(in_channels=out_ch, out_channels=out_ch, kernel_size=3, padding=1)
+        self.conv2 = ConvStandardized2D(in_channels = out_ch, out_channels = out_ch, kernel_size = 3, padding=1)
         self.GN = nn.GroupNorm(num_groups=10, num_channels=out_ch)
         self.ReLu = nn.ReLU(inplace=True)
         self.droupout = nn.Dropout(p=0.1)
@@ -250,9 +250,9 @@ class DoubleConv(nn.Module):
         """
         x = self.conv1(x)
         x = self.ReLu(x)
+        int_layer = x  # intermediate layer to extract features from for SSFD
         x = self.conv2(x)
         x = self.ReLu(x)
-        int_layer = x  # intermediate layer to extract features from for SSFD
         x = self.GN(x)
 
         return x, int_layer
@@ -287,3 +287,22 @@ class EncoderBlock(nn.Module):
         x, int_layer = self.conv_block(x)
 
         return x, int_layer
+
+class ConvStandardized2D(nn.Conv2d):
+    # standardized convolutions implemented from  
+    # https://github.com/joe-siyuan-qiao/WeightStandardization
+
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                 padding=1, dilation=1, groups=1, bias=True):
+        super(ConvStandardized2D, self).__init__(in_channels, out_channels, kernel_size, stride,
+                 padding, dilation, groups, bias)
+
+    def forward(self, x):
+        weight = self.weight
+        weight_mean = weight.mean(dim=1, keepdim=True).mean(dim=2,
+                                  keepdim=True).mean(dim=3, keepdim=True)
+        weight = weight - weight_mean
+        std = weight.view(weight.size(0), -1).std(dim=1).view(-1, 1, 1, 1) + 1e-5
+        weight = weight / std.expand_as(weight)
+        return nn.functional.conv2d(x, weight, self.bias, self.stride,
+                        self.padding, self.dilation, self.groups)

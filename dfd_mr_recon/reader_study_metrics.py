@@ -148,11 +148,11 @@ def compute_ssfd_fs_metrics(img_dir, results_dir):
 
 def compute_ssfd_layer_metrics(img_dir, results_dir):
 
-    metrics_dict = {"SSFD (layer 1)": SSFD(layer_names = ("block1_relu2",)),
-                    "SSFD (layer 3)": SSFD(layer_names = ("block2_relu2",)),
-                    "SSFD (layer 5)": SSFD(layer_names = ("block3_relu2",)),
-                    "SSFD (layer 7)": SSFD(layer_names = ("block4_relu2",)),
-                    "SSFD (layer 9)": SSFD(layer_names = ("block5_relu2",))
+    metrics_dict = {"SSFD (layer 1)": SSFD(layer_names = ("block1_relu1",)),
+                    "SSFD (layer 3)": SSFD(layer_names = ("block2_relu1",)),
+                    "SSFD (layer 5)": SSFD(layer_names = ("block3_relu1",)),
+                    "SSFD (layer 7)": SSFD(layer_names = ("block4_relu1",)),
+                    "SSFD (layer 9)": SSFD(layer_names = ("block5_relu1",))
     }
 
     results_csv = os.path.join(results_dir, "layer_metrics.csv")
