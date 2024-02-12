@@ -2,6 +2,9 @@ from typing import Sequence
 
 import torch
 from torch import nn
+from torch.nn import functional as F
+
+from metrics.dfd_dist_funcs import pdl, dists_distance
 
 from meddlr.metrics.functional.image import mse, mae
 from meddlr.metrics.metric import Metric
@@ -62,7 +65,9 @@ class SSFD(Metric):
             distance_func (str): The distance function to use for computing the DFD. One of:
                 * ``'mse'``: mean square error.
                 * ``'mae'``: mean absolute error.
-
+                * ``'pdl'``: Projected Distribution Loss (https://arxiv.org/abs/2012.09289)
+                * ``'dists'``: distance adapted from Deep Image Structure and Texture Similarity
+                              (https://arxiv.org/pdf/2004.07728.pdf). 
         """
 
         super().__init__(
@@ -87,11 +92,13 @@ class SSFD(Metric):
             self.distance_func = mse
         elif distance_func == 'mae':
             self.distance_func = mae
-        # elif distance_func == 'cosine':
-        #     self.distance_func = cosine
+        elif distance_func == 'pdl':
+            self.distance_func = pdl
+        elif distance_func == 'dists':
+            self.distance_func = dists_distance
         else:
             raise ValueError(f"Invalid `distance_func` ('{distance_func}')."
-             "Expected one of mse, mae, or cosine.")
+             "Expected one of mse, mae, pdl, or dists.")
 
 
 
