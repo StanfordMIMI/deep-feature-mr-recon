@@ -1,0 +1,38 @@
+CUDNN_BENCHMARK: false
+DATASETS:
+  TEST: ("fastMRI_knee_multicoil_mini_v0.0.1_test",)
+DATALOADER:
+  NUM_WORKERS: 4
+  DATA_KEYS: (("target", "jsense-8-cf=8/target"), ("maps", "jsense-8-cf=8/maps"))
+  SAMPLER_TRAIN: ""
+  SUBSAMPLE_TRAIN:
+    NUM_TOTAL: -1  # Use all scans
+    NUM_UNDERSAMPLED: 0
+    NUM_VAL: -1
+    SEED: 1000
+MODEL:
+  NORMALIZER:
+    KEYWORDS: []
+    NAME: TopMagnitudeNormalizer
+AUG_TEST:
+  UNDERSAMPLE:
+    ACCELERATIONS: (4,)  # TODO: Fill this in
+AUG_TRAIN:
+  UNDERSAMPLE:
+    ACCELERATIONS: (4,)  # TODO: Fill this in
+    CALIBRATION_SIZE: 24  # TODO: Fill this in
+    CENTER_FRACTIONS: []
+    NAME: RandomMaskFunc1D
+  MRI_RECON:
+    TRANSFORMS:
+    - name: RandomMRIMotion
+      p: 1.0
+      std_devs: [0.25, 0.25]
+TEST:
+  VAL_METRICS:
+    RECON: ("psnr", "psnr_scan", "psnr_mag", "psnr_mag_scan", "nrmse", "nrmse_scan", "nrmse_mag", "nrmse_mag_scan", "ssim (Wang)", "LPIPS", "SSFD")
+  VAL_AS_TEST: true
+  FLUSH_PERIOD: -100  # Flush results every 100 scans
+OUTPUT_DIR: "results://ssfd/perturbations/motion/fastmri_knee_0.25"
+SEED: 1000
+VERSION: 1
