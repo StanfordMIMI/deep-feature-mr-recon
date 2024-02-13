@@ -31,7 +31,6 @@ class RINFD(Metric):
     def __init__(
         self,
         mode: str = "grayscale",
-        layer_names: Sequence[str] = ("layer3.3.conv3",),
         model_weights_mode = "RadImageNet",
         channel_names: Sequence[str] = None,
         reduction="none",
@@ -70,22 +69,27 @@ class RINFD(Metric):
             raise ValueError(f"Invalid `mode` ('{mode}'). Expected one of {valid_modes}.")
 
         self.mode = mode
-        self.layer_names = layer_names
         self.model_weights_mode = model_weights_mode
 
 
         if self.model_weights_mode == 'ImageNet':
+            self.layer_names = ("layer3.3.conv3",)
             self.net = resnet50(weights=ResNet50_Weights.IMAGENET1K_V1)
 
         elif self.model_weights_mode == 'RadImageNet':
+            # different because RIN redefines model to a sequential one. 
+            # layer is functionally the same.
+            self.layer_names = ('backbone.6.3.conv3',) 
             path_manager = env.get_path_manager()
             RIN_weights_huggingface_url = ("https://huggingface.co/philadamson93/RINFD/resolve"
                                            "/main/ResNet50/ResNet50.pt")
             file_path = path_manager.get_local_path(RIN_weights_huggingface_url, force=False)
-            self.net = resnet50(weights = torch.load(file_path))
+            self.net = RINBackbone()
+            self.net.load_state_dict(torch.load(file_path))
 
         elif self.model_weights_mode == 'random':
-            self.net = resnet50(pretrained=False)
+            self.layer_names = ("layer3.3.conv3",)
+            self.net = resnet50(weights = None)
         
         else:
             raise ValueError(
@@ -192,3 +196,13 @@ class RINFD(Metric):
         handle.remove()
 
         return features
+
+class RINBackbone(nn.Module):
+    def __init__(self):
+        super().__init__()
+        base_model = resnet50(weights = None)
+        encoder_layers = list(base_model.children())
+        self.backbone = nn.Sequential(*encoder_layers[:9])
+                        
+    def forward(self, x):
+        return self.backbone(x)
