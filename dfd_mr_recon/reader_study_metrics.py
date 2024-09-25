@@ -2,6 +2,7 @@ import os
 import numpy as np
 from PIL import Image
 import pandas as pd
+import argparse
 
 from torchvision import transforms
 import torch
@@ -10,6 +11,9 @@ from metrics.ssfd import SSFD
 from metrics.lpip import LPIPS
 from metrics.rinfd import RINFD
 from metrics.dists import DISTS
+from metrics.hfen import HFEN
+from metrics.vif import VIF
+from metrics.nqm import NQM
 from meddlr.metrics.image import SSIM, PSNR, NRMSE
 
 
@@ -49,7 +53,6 @@ def compute_metrics(img_dir, results_csv, metrics_dict):
                 }
 
                 for metric_name, metric in metrics_dict.items():
-                    # print(metric_name, metric)
                     img_result[metric_name] = metric(recon_image, gt_image).item()
                 
                 results.append(img_result)
@@ -177,6 +180,9 @@ def compute_all_metrics(img_dir, results_dir):
     metrics_dict = {"SSIM": SSIM(im_type = None),
                     "PSNR": PSNR(im_type = None),
                     "NRMSE": NRMSE(im_type = None),
+                    "HFEN": HFEN(sigma=1.5),
+                    "VIF": VIF(),
+                    "NQM": NQM(),
                     "SSFD": SSFD(),
                     "LPIPS (VGG-16)": LPIPS(net_type='vgg', lpips=True,),
                     "LPIPS (AlexNet)": LPIPS(net_type='alex', lpips=True,),
@@ -187,6 +193,8 @@ def compute_all_metrics(img_dir, results_dir):
                     "ResNet50 (random)": RINFD(model_weights_mode = "random")
                 }
 
+
+
     results_csv = os.path.join(results_dir, "main_metrics.csv")
 
     compute_metrics(img_dir, results_csv, metrics_dict)
@@ -194,22 +202,19 @@ def compute_all_metrics(img_dir, results_dir):
 
 if __name__ == "__main__":
 
-    # parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser()
     
-    # parser.add_argument("--img_dir", default="./image_dir", help="Specify the top level folder of your MR recon image directory. (default: './image_dir')")
-    # parser.add_argument("--results_dir", default="./results", help="Specify the folder to save the results csv file. (default: './results')")
+    parser.add_argument("--img_dir", default="./image_dir", help="Specify the top level folder of your MR recon image directory. (default: './image_dir')")
+    parser.add_argument("--results_dir", default="./results", help="Specify the folder to save the results csv file. (default: './results')")
     
-    # args = parser.parse_args()
+    args = parser.parse_args()
 
-    # img_dir = args.img_dir
-    # results_dir = args.results_dir
+    img_dir = args.img_dir
+    results_dir = args.results_dir
 
-    img_dir = '/bmrNAS/people/padamson/results/Perceptual_Loss/Reader_Study_Data/Reader_Study_png/'
-    results_dir = '/bmrNAS/people/padamson/results/meddlr/ssfd/reader_study_script'
-
-    # compute_SSFD_fs_metrics(img_dir, results_dir)
-    # compute_ssfd_hp_metrics(img_dir, results_dir)
-    # compute_ssfd_layer_metrics(img_dir, results_dir)
-    # compute_ssfd_percent_data_metrics(img_dir, results_dir)
+    compute_SSFD_fs_metrics(img_dir, results_dir)
+    compute_ssfd_hp_metrics(img_dir, results_dir)
+    compute_ssfd_layer_metrics(img_dir, results_dir)
+    compute_ssfd_percent_data_metrics(img_dir, results_dir)
     compute_ssfd_distance_metrics(img_dir, results_dir)
-    # compute_all_metrics(img_dir, results_dir)
+    compute_all_metrics(img_dir, results_dir)
