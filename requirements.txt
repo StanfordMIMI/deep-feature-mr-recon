@@ -4,3 +4,4 @@ pandas
 pillow
 h5py
 DISTS-pytorch
+pyrtools
