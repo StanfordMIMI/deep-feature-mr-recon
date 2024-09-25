@@ -1,5 +1,4 @@
 from typing import Sequence
-
 import torch
 import torch.nn as nn
 from meddlr.metrics.metric import Metric
@@ -9,10 +8,10 @@ import numpy as np
 
 class HFEN(Metric):
     """
-    High Frequency Error Norm (HFEN) Loss. 
+    High Frequency Error Norm (HFEN) [1]. 
 
-    This loss calculates the error in the high-frequency components between the predicted and target images 
-    leveraging a Lapacian of Gaussians.
+    HFEN calculates the error in the high-frequency components between the predicted and target images 
+    leveraging a Lapacian of Gaussians [1].
 
     References:
     [1] S. Ravishankar and Y. Bresler. "MR Image Reconstruction From Highly Undersampled 

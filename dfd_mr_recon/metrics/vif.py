@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 from meddlr.metrics.metric import Metric
 from meddlr.ops import complex as cplx
+from pyrtools.pyramids import SteerablePyramidSpace as SPyr
 import numpy as np
 
 class VIF(Metric):
@@ -252,7 +253,6 @@ class VIF(Metric):
         sigma_nsq = 0.1
 
         if wavelet == 'steerable':
-            from pyrtools.pyramids import SteerablePyramidSpace as SPyr
             pyr_ref = SPyr(img_ref, 4, 5, 'reflect1').pyr_coeffs
             pyr_dist = SPyr(img_dist, 4, 5, 'reflect1').pyr_coeffs
             subband_keys = []
