@@ -136,10 +136,10 @@
 
 <html>
 <head>
-	<title>Using Deep Feature Distances for Evaluating MR Image Reconstruction Quality</title>
+	<title>Using Deep Feature Distances for Evaluating the Perceptual Quality of MR Image Reconstructions</title>
 	<meta property="og:image" content="resources/DFD_Methods.png"/>
-	<meta property="og:title" content="Using Deep Feature Distances for Evaluating MR Image Reconstruction Quality" />
-	<meta property="og:description" content="Using Deep Feature Distances for Evaluating MR Image Reconstruction Quality." />
+	<meta property="og:title" content="Using Deep Feature Distances for Evaluating the Perceptual Quality of MR Image Reconstructions" />
+	<meta property="og:description" content="Using Deep Feature Distances for Evaluating the Perceptual Quality of MR Image Reconstructions" />
 	<script>
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
@@ -158,7 +158,7 @@
 	<br>
 	<center>
 		<span style="font-size:36px">
-			Using Deep Feature Distances for <br /> Evaluating MR Image Reconstruction Quality
+			Using Deep Feature Distances for Evaluating the<br /> Perceptual Quality of MR Image Reconstructions
 		</span>
 		</br></br>
 		
@@ -187,12 +187,17 @@
 					</td>
 					<td align=center width=120px >
 						<center>
-						<span><a href="https://www.linkedin.com/in/jeff-wood-542707100/">Jeff P.<br />Wood</a></span>
+						<span><a href="https://maya-varma.com/">Maya<br />Varma</a></span>
 						</center>
 					</td>
 				</tr>
 			
                 <tr style="font-size: 14px">
+					<td align=center width=120px >
+						<center>
+						<span><a href="https://www.linkedin.com/in/jeff-wood-542707100/">Jeff P.<br />Wood</a></span>
+						</center>
+					</td>
 					<td align=center width=120px >
 						<center>
 						<span><a href="https://profiles.stanford.edu/ali-syed">Ali B.<br />Syed</a></span>
@@ -213,22 +218,22 @@
 						<span><a href="https://profiles.stanford.edu/shreyas-vasanawala">Shreyas<br />Vasanawala</a></span>
 						</center>
 					</td>
+				</tr>
+				
+				<tr style="font-size: 14px">
 					<td align=center width=120px >
 						<center>
 						<span><a href="https://web.stanford.edu/~pauly/">John M.<br />Pauly</a></span>
 						</center>
 					</td>
-				</tr>
-				
-				<tr style="font-size: 14px">
-					<td align=center width=300px>
-						<center>
-							<span><a href="https://profiles.stanford.edu/akshay-chaudhari">Akshay S.<br />Chaudhari</a></span>
-						</center>
-					</td>
 					<td align=center width=300px> 
 						<center>
 							<span><a href="https://www.linkedin.com/in/beliz-gunel-7252bb78/">Beliz<br />Gunel</a></span>
+						</center>
+					</td>
+					<td align=center width=300px>
+						<center>
+							<span><a href="https://profiles.stanford.edu/akshay-chaudhari">Akshay S.<br />Chaudhari</a></span>
 						</center>
 					</td>
 				</tr>
@@ -252,7 +257,7 @@
 				<tr>
 					<td align=center width=120px>
 						<center>
-							<span style="font-size:24px"><a href='https://openreview.net/forum?id=AUiZyqYiGb&noteId=AUiZyqYiGb'>[Paper]</a></span>
+							<span style="font-size:24px"><a href='https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.30437'>[Paper]</a></span>
 						</center>
 					</td>
 					<td align=center width=120px>
@@ -293,9 +298,14 @@
 	<table align=center width=850px>
 		<center><h1>Abstract</h1></center>
 		<tr>
-			<td style='text-align: justify;'>
-				<p>Evaluation of MR reconstruction methods is challenged by the need for image quality (IQ) metrics which correlate strongly with radiologist-perceived IQ. We explore Deep Feature Distances (DFDs) as MR reconstruction IQ metrics, whereby distances between ground truth and reconstructed MR images are computed in a lower-dimensional feature space encoded by a CNN. In addition to comparing DFDs to two commonly used pixel-based MR IQ metrics in PSNR and SSIM via correlations to radiologist reader scores of MR image reconstructions, we explore the impact of domain shifts between the DFD encoder training data and the evaluated MR images. In particular, we assess two state-of-the-art but "out-of-domain" DFDs with encoders trained on natural images, an in-domain DFD trained on MR images alone, and propose two domain-adjacent DFDs trained on large medical imaging datasets (not limited to MR data). IQ metric performance is assessed via their correlations to 5 expert radiologist reader scores of MR image reconstructions. We make three striking observations: 1) all DFDs out-perform traditional IQ metrics, 2) DFDs performance approaches that of radiologist inter-reader variability, and, 3) surprisingly, out-of-domain DFDs perform comparably as an MR reconstruction IQ metric to in-domain and domain-adjacent DFDs. These results make it evident that DFDs should be used alongside traditional IQ metrics in evaluating MR reconstruction IQ, and suggest that general vision encoders are able to assess visual IQ across image domains.</p>
-			</td>
+			<td style="text-align: justify;">
+				<p><strong>Purpose.</strong> Commonly used MR image quality (IQ) metrics have poor concordance with radiologist-perceived diagnostic IQ. Here, we develop and explore deep feature distances (DFDs)—distances computed in a lower-dimensional feature space encoded by a convolutional neural network (CNN)—as improved perceptual IQ metrics for MR image reconstruction. We further explore the impact of distribution shifts between images in the DFD CNN encoder training data and the IQ metric evaluation.</p>
+				<p><strong>Methods.</strong> We compare commonly used IQ metrics (PSNR and SSIM) to two “out-of-domain” DFDs with encoders trained on natural images, an “in-domain” DFD trained on MR images alone, and two domain-adjacent DFDs trained on large medical imaging datasets. We additionally compare these with several state-of-the-art but less commonly reported IQ metrics, visual information fidelity (VIF), noise quality metric (NQM), and the high-frequency error norm (HFEN). IQ metric performance is assessed via correlations with five expert radiologist reader scores of perceived diagnostic IQ of various accelerated MR image reconstructions. We characterize the behavior of these IQ metrics under common distortions expected during image acquisition, including their sensitivity to acquisition noise.</p>
+				<p><strong>Results.</strong> All DFDs and HFEN correlate more strongly with radiologist-perceived diagnostic IQ than SSIM, PSNR, and other state-of-the-art metrics, with correlations being comparable to radiologist inter-reader variability. Surprisingly, out-of-domain DFDs perform comparably to in-domain and domain-adjacent DFDs.</p>
+				<p><strong>Conclusion.</strong> A suite of IQ metrics, including DFDs and HFEN, should be used alongside commonly-reported IQ metrics for a more holistic evaluation of MR image reconstruction perceptual quality. We also observe that general vision encoders are capable of assessing visual IQ even for MR images.
+
+				</p>
+			  </td>
 		</tr>
 	</table>
 	<br>
@@ -320,7 +330,7 @@
 	<table align=center width=800px>
 		<tr>
 			<td align=left width=800px>
-				Mean reader score correlations to traditional and DFD IQ metrics based on encoder training data domain D. Aliasing reader score SROCC values are shown on left with cartilage and meniscus reader score SROCCs on the right. DFDs out-perform tradition IQ metrics and are comparable to inter-reader variability (IRV), but out-of-domain DFDs perform comparably as an MR reconstruction IQ metric to in-domain and domain-adjacent DFDs.
+				Mean reader score correlations with commonly used (PSNR, SSIM, and NRMSE), less commonly used state-of-the-art (VIF, NQM, HFEN), and DFD IQ metrics based on encoder training data domain. Aliasing reader score SROCC values are shown on the left with cartilage and meniscus reader score SROCCs on the right. DFDs and HFEN outperform VIF and NQM, which in turn outperform SSIM and PSNR. The DFDs and HFEN correlations are comparable to the inter-reader variability between the five readers (shown in black +-1 standard deviation), but out-of-domain DFDs perform comparably as an MR image reconstruction IQ metric to in-domain and domain-adjacent DFDs.
 			</td>
 		</tr>
 	</table>
@@ -345,12 +355,68 @@
 	<table align=center width=800px>
 		<tr>
 			<td align=left width=800px>
-				Example traditional (PSNR), out-of-domain (LPIPS), in-domain (SSFD) and domain- adjacent (RINFD) IQ metric values versus mean reader scores for aliasing (top) and carti- lage/mensiscus assessment (bottom). Each point corresponds to a single image taken from the center slice from 61 MR reconstruction images, each with 2x (blue), 4x (black) and 6x (orange) accelerations with a UNet (circle) and unrolled (X’s) networks. Higher reader score values correspond to better radiologist perceived IQ.
+				Example commonly used (SSIM, PSNR), state-of-the-art (VIF), out-of-domain DFD (LPIPS), in-domain DFD (SSFD) and domain-adjacent DFD (RINFD) IQ metric values versus mean reader scores for aliasing (top) and cartilage/mensiscus assessment (bottom). Each point corresponds to a single image taken from the center slice from 61 MR image reconstruction images, each with 2 (blue), 4 (black), and 6 (orange) accelerations with a UNet (circle) and unrolled (X's) networks. Higher reader score values correspond to better radiologist-perceived IQ.
 			</td>
 		</tr>
 	</table>
 	<br>
+	
+	<br>
+	<hr>
+	<br>
 
+	<br>
+	<table align="center" width="400px">
+	<tr>
+		<td align="center" width="400px">
+		<center>
+			<td class="img-magnifier-container">
+			<img id="myimage" style="width:800px" src="resources/AcqNoise.png"/>
+			</td>
+		</center>
+		</td>
+	</tr>
+	</table>
+
+	<table align="center" width="800px">
+	<tr>
+		<td align="left" width="800px">
+		Mean reader score correlations as a function of acquisition noise in the reference data to commonly used (SSIM, PSNR, NRMSE), less commonly used state-of-the-art (VIF, NQM, HFEN), and DFD IQ metrics based on encoder training data domain. Complex Gaussian noise is added to the original k-space data by scaling the inter-channel covariance matrix. Aliasing reader score SROCC values are shown on top with cartilage and meniscus reader score SROCCs on the bottom. DFDs and HFEN outperform other IQ metrics as acquisition noise increases, while LPIPS, RINFD, and HFEN still match inter-reader variability (shown in black ±1 standard deviation) even when using reference scans with four times the original acquisition noise.
+		</td>
+	</tr>
+	</table>
+	<br>
+
+	<br>
+	<hr>
+	<br>
+	
+	<br>
+	<table align="center" width="400px">
+	  <tr>
+		<td align="center" width="400px">
+		  <center>
+			<td class="img-magnifier-container">
+			  <img id="myimage" style="width:800px" src="resources/IQM_vs_Corruptions.png"/>
+			</td>
+		  </center>
+		</td>
+	  </tr>
+	</table>
+	
+	<table align="center" width="800px">
+	  <tr>
+		<td align="left" width="800px">
+		  IQ metrics vs. perturbation extent, chosen to achieve comparable changes in SSIM, for increasing Gaussian noise, 
+		  blurring, translation, and motion artifacts (bottom). Example images demonstrate each perturbation type 
+		  at the extent indicated by the arrow, where the roll image is the difference between the perturbed 
+		  and original scan (top). All IQ metrics are sensitive to clinically realistic image corruptions, 
+		  while DFDs are relatively insensitive to pixel shifts (e.g., HFEN, yellow versus RINFD, green).
+		</td>
+	  </tr>
+	</table>
+	<br>
+	
 
     <br>
     <hr>
@@ -383,19 +449,26 @@
 
 
 
-	<table align=center width=550px>
+	<table align="center" width="550px">
 		<center><h1>Paper</h1></center>
 		<tr>
-			<td><a href="https://openreview.net/forum?id=AUiZyqYiGb&noteId=AUiZyqYiGb"><img class="layered-paper-big" style="height:175px" src="resources/thumbnail.png"/></a></td>
-			<td><span style="font-size:14pt">Philip M Adamson, Arjun D Desai, Jeffrey Dominic, Christian Bluethgen,</br> Jeff P. Wood, Ali B Syed, Robert D. Boutin, Kathryn J. Stevens, Shreyas Vasanawala, John M. Pauly</br> Akshay S Chaudhari, Beliz Gunel<br>
-				<b>Using Deep Feature Distances for Evaluating MR Image Reconstruction Quality.</b><br> NeurIPS 2023 Workshop on Deep Learning and Inverse Problems.
-				2023. (hosted on <a href="https://openreview.net/forum?id=AUiZyqYiGb&noteId=AUiZyqYiGb">Open Review</a>)<br>
-				<span style="font-size:4pt"><a href=""><br></a>
-				</span>
-			</td>
+		  <td>
+			<a href="https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.30437">
+			  <img class="layered-paper-big" style="height:175px" src="resources/thumbnail.png" />
+			</a>
+		  </td>
+		  <td>
+			<span style="font-size:14pt">
+			  Philip M. Adamson, Arjun D. Desai, Jeffrey Dominic, Maya Varma, Christian Bluethgen,<br>
+			  Jeff P. Wood, Ali B. Syed, Robert D. Boutin, Kathryn J. Stevens, Shreyas Vasanawala,<br>
+			  John M. Pauly, Beliz Gunel, and Akshay S. Chaudhari<br>
+			  <strong>Using Deep Feature Distances for Evaluating the Perceptual Quality of MR Image Reconstructions.</strong><br>
+			  <em>Magnetic Resonance in Medicine</em>, 2025. <br>
+			  (<a href="https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.30437">Link</a>)
+			</span>
+		  </td>
 		</tr>
-	</table>
-	<br>
+	  </table>
 
 	<table align=center width=600px>
 		<tr>
